@@ -1,6 +1,5 @@
 package leetcode.simple;
 
-import javax.print.attribute.HashAttributeSet;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,9 +10,9 @@ public class TwoSum {
      *
      *使用Map存储，键为数组中数字，值为索引
      *
-     * @param nums
-     * @param target
-     * @return
+     * @param nums 数组
+     * @param target 目标值
+     * @return 返回索引
      */
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> valIndex = new HashMap<>();
