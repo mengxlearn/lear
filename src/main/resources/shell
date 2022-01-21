@@ -1,0 +1,15 @@
+/etc/passwd 包含了所有系统用户账户列表以及每个用户的基本配置信息
+christine:x:501:501:Christine Bresnahan:/home/christine:/bin/bash 最后一个字段指定用户使用的shell程序
+
+set 查看当前Shell中的变量
+定义变量  变量名=值，
+    等号两端无空格
+    变量默认类型都是字符串
+    变量值如果有空格，需要使用双引号或者单引号括起来
+
+撤销变量  unset 变量名
+声明静态变量  readonly 变量
+
+提升全局环境变量 export 变量名
+
+特殊变量：

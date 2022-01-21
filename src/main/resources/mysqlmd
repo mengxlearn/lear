@@ -1,0 +1,104 @@
+##MySQL的常见命令
+###启动服务
+    net start mysql, 终止服务  换stop    （dos窗口用管理员权限打开）
+    登录mysql：
+        1.通过mysql自带的客户端，该方式仅限于root用户
+        2.通过windows自带的客户端
+           mysql -h localhost -P 3306(端口号) -u root -p
+                         主机          端口号          用户     密码
+####1.查看当前所有的数据库
+    show databases;
+####2.打开指定的库
+    use 库名；
+####3.查看当前库的所有表
+    show tables;
+####4.查看其它库的所有表
+    show tables from 库名；
+####5.创建表
+    create table 表名（
+        列名1 列类型，
+        列名2 列类型，
+        ...
+    );
+####6.查看表结构
+    desc 表名;
+####7.查看服务器版本
+    方式1：登录myslq，  select version();
+    方式2：mysql --version()   或mysql --V
+##MySQL的语法规范
+    1.不区分大小写，建议关键字大写，表名、列名小写
+    2.每条命令组好用分号结尾
+    3.每条命令根据需要，可以机型缩进或换行
+    4.单行注释
+        #注释文字
+        -- 注释文字
+      多行注释
+        /* 注释文字 */
+##数据库语言 
+####1.查询语言dql
+    1.查询表中单个字段
+    select 字段名 from 表名;
+    
+    2.查询表中多个字段
+    select 字段1,字段2 from 表名;
+    
+    3.查询所有字段
+    select * from 表名;
+    
+    4.查询常量值
+    select 100;
+    select 'john';  查出结果即为常量
+    
+    5.查询表达式
+    select 100*98;
+    
+    6.查询函数
+    select version();
+    
+    7.起别名
+    select 字段 as 别名; as可以忽略， 如果别名中带有空格，使用双引号引用
+    
+    8.去重
+    select distinct 字段名 from 表名;
+    
+    9. +号的作用
+    如果两边为数值，执行数值运算
+    如果一边为数值，尝试将另一边转换数值执行数值运算，转换失败则为字符转为0，执行数值运算
+    如果一边为null，则结果为null
+    select last_name + first_name as 姓名 from 表名;
+    
+    10.字符拼接函数
+    SELECT CONCAT(last_name,first_name) AS 姓名 FROM employees
+    
+    11.ifnull函数
+    ifnull(字段名，内容);
+####2. 查询进阶
+    /*
+        select 
+            查询列表
+        from
+            表名
+        where
+            条件;
+        一、按条件表达式筛选
+          简单条件运算符： > < = != <> >= <=
+        二、按逻辑表达式筛选
+          逻辑运算符：  and  or  not
+        三、模糊查村
+          like
+          between a and b 包含a和b
+          in
+          is null
+          is not null
+          
+          like 一般和通配符搭配使用，
+          %任意多个字符，包含0个字符
+          _任意单个字符
+          
+    */
+    select job_id from myemployees.employees where job_id in ('IT_PROT','ad_vp','ad_pres')
+    
+####SQLyog登录图
+![binaryTree](img/MySQL/mysql_login.png)
+
+####

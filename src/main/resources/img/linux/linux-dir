@@ -1,0 +1,78 @@
+######apt-get purge / apt-get –purge remove 
+    删除已安装包（不保留配置文件)。 
+    如软件包a，依赖软件包b，则执行该命令会删除a，而且不保留配置文件
+    删除软件及其配置文件
+    apt-get --purge remove <package>
+    删除没用的依赖包
+    apt-get autoremove <package>
+    此时dpkg的列表中有“rc”状态的软件包，可以执行如下命令做最后清理：
+dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
+######apt-get autoremove 
+    删除为了满足依赖而安装的，但现在不再需要的软件包（包括已安装包），保留配置文件。
+######apt-get remove 
+    删除已安装的软件包（保留配置文件），不会删除依赖软件包，且保留配置文件。
+######apt-get autoclean 
+    APT的底层包是dpkg, 而dpkg 安装Package时, 会将 *.deb 放在 /var/cache/apt/archives/中，apt-get autoclean 只会删除 /var/cache/apt/archives/ 已经过期的deb。
+######apt-get clean 
+    使用 apt-get clean 会将 /var/cache/apt/archives/ 的 所有 deb 删掉，可以理解为 rm /var/cache/apt/archives/*.deb。
+###xshell远程链接
+    所以在连接之前需要安装OpenSSH，命令如下：
+    sudo apt-get install openssh-server openssh-client
+    安装完成之后，执行netstat -tnl命令，查看22端口是否开通：
+![binaryTree](netstat.png)
+
+###用户权限
+    1. 修改 root 密码
+    sudo passwd root
+    2. 以其他账户登录，通过vi修改 /etc/ssh/sshd_config :
+    server@ubuntu:~$ su root
+    Password:
+    root@ubuntu:~# vi /etc/ssh/sshd_config
+    3.修改PermitRootLogin without-passwor 为 PermitRootLogin yes
+    
+    4. 重启 ssh  服务
+    root@ubuntu:~# service ssh restart
+    ssh stop/waiting
+    ssh start/running, process 1499
+    
+    创建用户 
+    useradd xm,默认创建xm目录、用户和组
+    useradd -d /home/tiger/ xh   -d用于指定家目录
+    passwd user 给user指定密码
+    userdel user 会保留家目录
+    userdel -r user 家目录一块删除
+    id user 查看用户信息
+    groupadd 组名  groupdel
+    useradd -g 组名 用户名
+    usermod -g 组名 用户名
+    usermod -G 组1,组2 用户名
+    usermod -a -G 附加组名 用户名
+    /etc/passwd 用户配置文件（用户信息）
+    /etc/group 组配置文件（组信息）
+    /etc/shadow 口令配置文件（密码和登录信息，是加密的）
+###链接
+    ln 指令类似创建快捷方式
+    基本语法：
+        ln -s 原文件或目录 软连接名字
+    find 
+        find 搜索范围 选项 文件名
+        find /opt -user nobody
+        find / -size +20M 大于20M
+###压缩、解压缩
+    gzip 文件 压缩文件，只能将文件压缩为*.gz，不保留源文件
+    gunzip 文件.gz  解压指定文件
+    
+    zip [选项] xxx.zip 将要压缩的内容 -r递归压缩整个目录
+    unzip [选项] xxx.zip
+    
+    tar
+        选项  功能
+        -c   产生.tar打包文件
+        -v   显示详细信息
+        -f   指定压缩后的文件名
+        -z   打包同时压缩
+        -x   解包.tar文件
+        tar -zcvf result.tar.gz mx test
+        tar -zxvf result.tar.gz
+        tar -zxvf result.tar.gz -C /opt/   解压到指定的已存在的目录
+        

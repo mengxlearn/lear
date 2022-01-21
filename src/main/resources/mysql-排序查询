@@ -1,0 +1,88 @@
+##进阶3：排序查询
+    select 查询列表
+    frok 表名
+    【where 筛选条件】
+    order by 排序字段 asc | desc;
+    
+    select *,salary*12*(1+ifnull(commission_pct,0)) 年薪 
+    from employees 
+    order by 年薪 asc;
+    
+    按姓名长度显示员工姓名和工资
+    select last_name,length(last_name) 字节长度,salary 
+    from employees 
+    order by 字节长度 desc;
+    
+    按照多个字段排序
+    select salary,employee_id 
+    from employees 
+    order by salary asc ,employee_id desc; 
+    
+    select last_name,salary from employees where salary not between 8000 and 17000
+    select last_name,salary from employees where not salary between 8000 and 17000
+    /*
+        1、asc代表升序，desc代表降序，默认升序
+        2、order by 字句可以支持单个字段、多个字段、表达式、函数、别名
+        3、order by子句一般放在查询语句最后面，limit子句除外
+    */
+##进阶4：常见函数
+    /*
+        select 函数名(实参列表) 【from表】
+    分类：
+      1、单行函数：concat、length、ifnull,upper,lower等
+      2、分组函数：做统计使用，又称为    统计函数、聚合函数、组函数
+    */
+    
+    select length('john');
+    select concat(last_name,'_',first_name) 姓名 from employees;
+    
+    流程控制函数：
+    1.if函数： if else的效果
+        select if(10<5,'小','大');
+    2.case函数
+        case 要判断的字段或表达式
+        when 常量1 then 要显示的值1或语句1；
+        when 常量2 then 要显示的指2或语句2；
+        else 要显示的值n或语句n；
+        end
+        
+        SELECT salary 原始工资,department_id,
+               case department_id
+        when 30 then salary*1.1
+        when 40 then salary*1.2
+        else salary
+        end as 新工资
+        from employees order by department_id;
+        
+        case方法二：
+        case 
+        when 条件1 then 要显示的值1或语句1；
+        when 条件2 then 要显示的值2或语句2；
+        else 要显示的值或语句
+        end as 别名 from 表名；
+        
+        select salary,
+               case
+        when salary>20000 then 'a'
+        when salary>15000 then 'b'
+        when salary>10000 then 'c'
+        else 'd'
+        end as 工资级别 from employees;
+##进阶五： 分组查询
+    select 分组函数，列(要求出现在group by之后)
+    from 表
+    where 条件
+    groub by 分组列表
+    order by 子句；
+    
+    select  avg(salary),department_id from employees group by department_id;
+    
+    select count(*) 员工数,department_id from employees group by department_id having 员工数>2
+    
+    select max(salary),job_id from employees where commission_pct is not null group by job_id having max(salary)>12000
+    1、分组查询中筛选条件分为两类
+                数据源             位置             关键字
+    分组前筛选    原始表            group by前，      where
+    分组后筛选    分组后的结果集      group by后       having
+    
+    select avg(salary),department_id,job_id from employees group by department_id,job_id
