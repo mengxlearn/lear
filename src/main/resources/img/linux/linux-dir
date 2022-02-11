@@ -75,4 +75,60 @@ dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
         tar -zcvf result.tar.gz mx test
         tar -zxvf result.tar.gz
         tar -zxvf result.tar.gz -C /opt/   解压到指定的已存在的目录
-        
+   
+###权限
+![binarytree](权限.png)
+
+![binarytree](rwx.png)
+####任务调度
+    crontab 可以定时调用任务，比如说脚本
+    crontab [选项]
+             -e     编辑crontab定时任务
+             -l     查询crontab任务
+             -r     删除当前用户所有的crontab任务
+    */1**** ls -l /etc/ >>/tmp/to.txt
+    
+    项目      含义              范围
+    第一个*    一小时的第几分钟    0-59
+    第二个*    一天中第几个小时    0-23
+    第三个*    一个月中第几天     1-31
+    第四个*    一年中第几个月     1-12
+    第五个*    一周中星期几      0-7（0和7都代表周日）
+####磁盘分区和挂载
+    分区方式：
+    1）mbr分区
+        1.最多支持四个主分区
+        2.系统只能安装在主分区
+        3.扩展分区要占一个主分区
+        4.MBR最大支持2TB,
+    2）gpt分区
+        1.支持无限多个主分区，但操作系统可能限制，windows最多128个
+        2.最大支持18EB容量， EB=1024PB  PB=1024TB
+        3.window6 64以后支持gtp
+![binarytree](分区.png)
+
+![binarytree](分区1.png)
+    
+    sda 为一块物理盘，1，2，3 为三个分区，sr0为光驱
+    挂载
+        1.虚拟机添加硬盘
+        2.分区 fdisk /dev/sdb
+        3.格式化 mkfs -t ext4 /dev/sdb1
+        4.挂载 先创建挂载目标目录 mount /dev/sdb1 /home 重启系统后就没有挂载了
+        5.设置可以自动挂载（永久挂载）
+            5-1 vim /etc/fstab
+            5-2 见永久挂载图片，  mount -a
+    去除挂载
+        umount /dev/sdb1
+![binarytree](挂载.png)
+
+![binarytree](永久挂载.png)    
+
+###磁盘查看
+    df -h 查看系统情况
+    du  查询指定目录情况
+        du -ach --max-depth=1 /opt
+           -a   含文件
+           -s   指定目录占用大小汇总
+           -h   带计量单位
+           -c   列出明细的同时，增加汇总量
